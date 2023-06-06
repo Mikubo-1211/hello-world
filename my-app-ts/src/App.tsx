@@ -1,22 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './App.css';
-import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, Auth } from "firebase/auth";
 import { fireAuth } from "./firebase";
 
-
 export const LoginForm: React.FC = () => {
-  /**
-   * googleでログインする
-   */
-  const signInWithGoogle = (): void => {
-    // Google認証プロバイダを利用する
-    const provider = new GoogleAuthProvider();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    // ログイン用のポップアップを表示
-    signInWithPopup(fireAuth, provider)
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const signUpWithEmail = (): void => {
+    // メール/パスワードで新規アカウントを作成する
+    createUserWithEmailAndPassword(fireAuth, email, password)
       .then(res => {
         const user = res.user;
-        alert("ログインユーザー: " + user.displayName);
+        alert("新規アカウントを作成しました。ログインユーザー: " + user?.displayName);
       })
       .catch(err => {
         const errorMessage = err.message;
@@ -24,9 +28,19 @@ export const LoginForm: React.FC = () => {
       });
   };
 
-  /**
-   * ログアウトする
-   */
+  const signInWithEmail = (): void => {
+    // メール/パスワードでログインする
+    signInWithEmailAndPassword(fireAuth, email, password)
+      .then(res => {
+        const user = res.user;
+        alert("ログインユーザー: " + user?.displayName);
+      })
+      .catch(err => {
+        const errorMessage = err.message;
+        alert(errorMessage);
+      });
+  };
+
   const signOutWithGoogle = (): void => {
     signOut(fireAuth).then(() => {
       alert("ログアウトしました");
@@ -35,13 +49,26 @@ export const LoginForm: React.FC = () => {
     });
   };
 
-
   return (
     <div>
-      <button onClick={signInWithGoogle}>
-        Googleでログイン
+      <label>
+        メールアドレス:
+        <input type="email" value={email} onChange={handleEmailChange} />
+      </label>
+      <br />
+      <label>
+        パスワード:
+        <input type="password" value={password} onChange={handlePasswordChange} />
+      </label>
+      <br />
+      <button onClick={signUpWithEmail}>
+        メール/パスワードで新規登録
       </button>
-      <br/>
+      <br />
+      <button onClick={signInWithEmail}>
+        メール/パスワードでログイン
+      </button>
+      <br />
       <button onClick={signOutWithGoogle}>
         ログアウト
       </button>
@@ -58,25 +85,19 @@ export const Contents = () => {
   );
 };
 
+const App: React.FC = () => {
+  const [loginUser, setLoginUser] = useState<Auth["currentUser"]>(fireAuth.currentUser);
 
-
-
-const App = () => {
-  // stateとしてログイン状態を管理する。ログインしていないときはnullになる。
-  const [loginUser, setLoginUser] = useState(fireAuth.currentUser);
-  
-  // ログイン状態を監視して、stateをリアルタイムで更新する
   onAuthStateChanged(fireAuth, user => {
     setLoginUser(user);
   });
-  
+
   return (
     <>
       <LoginForm />
-      {/* ログインしていないと見られないコンテンツは、loginUserがnullの場合表示しない */}
       {loginUser ? <Contents /> : null}
     </>
   );
 };
 
-export default App
+export default App;
