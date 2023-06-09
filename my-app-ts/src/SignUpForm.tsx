@@ -27,7 +27,21 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   };
 
   const signUpWithEmail = async (): Promise<void> => {
-    // ...
+    if (!username || username.length === 0) {
+      alert("名前を入力してください。");
+      return;
+    }
+
+    if (username.length > 50) {
+      alert("名前は50文字以下で入力してください。");
+      return;
+    }
+
+    if (email.length > 50) {
+      alert("メールアドレスは50文字以下で入力してください。");
+      return;
+    }
+    
 
     try {
       const res = await createUserWithEmailAndPassword(fireAuth, email, password);
