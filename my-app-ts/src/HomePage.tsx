@@ -158,7 +158,7 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
   const handleDeleteMessage = async (id: string) => {
     const confirmed = window.confirm('本当にメッセージを削除してもよろしいですか？');
     if (!currentChannel) {
-      alert('チャンネルを選択してください');
+      alert('チャンネルを選択してくださいな');
       return;
     }
     if (confirmed) {
