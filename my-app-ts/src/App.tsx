@@ -1,6 +1,5 @@
-// App.tsx
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import HomePage from './HomePage';
@@ -18,22 +17,17 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/login">
-          {isLoggedIn ? <Redirect to="/home" /> : <LoginForm handleLogin={handleLogin} />}
-        </Route>
-        <Route exact path="/signup">
-          {isLoggedIn ? <Redirect to="/home" /> : <SignUpForm handleLogin={handleLogin} />}
-        </Route>
-        <Route exact path="/home">
-          {isLoggedIn ? <HomePage handleLogout={handleLogout} /> : <Redirect to="/login" />}
-        </Route>
+      <Routes>
         <Route path="/">
-          <Redirect to="/login" />
+          <Route path="login" element={isLoggedIn ? <Navigate to="/home" /> : <LoginForm handleLogin={handleLogin} />} />
+          <Route path="signup" element={isLoggedIn ? <Navigate to="/home" /> : <SignUpForm handleLogin={handleLogin} />} />
+          <Route path="home" element={isLoggedIn ? <HomePage handleLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
         </Route>
-      </Switch>
+      </Routes>
     </Router>
   );
 };
 
 export default App;
+
