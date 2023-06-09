@@ -97,7 +97,7 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
       return;
     }
     if (!currentChannel) {
-      alert('チャンネルを選択してください');
+      alert('チャンネルを選択してくださいな');
       return;
     }
     if (!user) {
@@ -223,7 +223,7 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
       ) : (
         <>
           <span>メッセージ: {message.content}</span>
-          {message.edit === '1' && <span> (編集済み)</span>}
+          {message.edit === '1' && <span> (編集済)</span>}
           
           <br />
           {message.user_id === user?.user_id && (
