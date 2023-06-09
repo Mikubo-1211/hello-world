@@ -1,9 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { fireAuth } from "./firebase";
 import { Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { useEmailContext } from './Context';
+import { UserContext } from './UserContext';
 
 interface SignUpFormProps {
   handleLogin: () => void; // handleLogin プロパティの型定義
@@ -12,9 +11,8 @@ interface SignUpFormProps {
 const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username,setUsername] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [cookies, setCookie] = useCookies(['userEmail']);
+  const [username, setUsername] = useState('');
+  const { setUserEmail } = useContext(UserContext); // UserContextからsetUserEmailを取得
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -29,22 +27,34 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   };
 
   const signUpWithEmail = async (): Promise<void> => {
-    // ...
-  
+    if (!username || username.length === 0) {
+      alert("名前を入力してください。");
+      return;
+    }
+
+    if (username.length > 50) {
+      alert("名前は50文字以下で入力してください。");
+      return;
+    }
+
+    if (email.length > 50) {
+      alert("メールアドレスは50文字以下で入力してください。");
+      return;
+    }
+    
+
     try {
       const res = await createUserWithEmailAndPassword(fireAuth, email, password);
       const user = res.user;
       alert("新規登録ユーザー: " + username); // ユーザー名を表示する
       handleLogin(); // ログイン成功時に handleLogin を呼び出す
-      setCookie('userEmail', email);
+      setUserEmail(email); // userEmailを更新
 
-      
       if (!username) {
         alert("Please enter name");
         return;
       }
-  
-  
+
       try {
         const result = await fetch("https://hello-world-2-xyex4gyyzq-uc.a.run.app/users", {
           method: "POST",
@@ -66,14 +76,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
       alert(errorMessage);
     }
   };
-  
 
   return (
     <div>
       <h2>新規登録</h2>
       <label>
         名前:
-        <input type="username" value={username} onChange={handleUsernameChange}/>
+        <input type="username" value={username} onChange={handleUsernameChange} />
       </label>
       <br />
       <label>

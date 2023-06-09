@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useState, useEffect,useContext } from 'react';
+import { UserContext } from './UserContext';
 
 type HomePageProps = {
   handleLogout: () => void;
@@ -28,15 +28,17 @@ type User = {
 };
 
 const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
+  const { userEmail } = useContext(UserContext);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [channels, setChannels] = useState<Channel[]>([]);
   const [user, setUser] = useState<User | null>(null);
-  const [cookies] = useCookies(['userEmail']);
-  const userEmail = cookies.userEmail || '';
   const [currentChannel, setCurrentChannel] = useState<Channel | null>(null);
   const [editMessageId, setEditMessageId] = useState('');
   const [editMessage, setEditMessage] = useState('');
+  const [newChannelName, setNewChannelName] = useState('');
+  const [isAddingChannel, setIsAddingChannel] = useState(false);
+
 
   useEffect(() => {
     fetchChannel();
@@ -184,11 +186,46 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
     setEditMessage(event.target.value);
   };
 
+  const createChannel = async (channelName:string) => {
+    if (!channelName) {
+      alert('チャンネル名を入力してください');
+      return;
+    }
+    try {
+      const result = await fetch(`https://hello-world-2-xyex4gyyzq-uc.a.run.app/channel?channel_name=${channelName}&description=a`, {
+        method: 'POST',
+      });
+      if (!result.ok) {
+        throw Error(`Failed to create channel: ${result.status}`);
+      }
+      // チャンネル作成成功後の処理
+      fetchChannel(); // チャンネルリストを再取得
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
+ //チャンネル追加
+  const handleCreateChannel = () => {
+    setIsAddingChannel(true);
+  };
+  
+  const handleNewChannelNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewChannelName(event.target.value);
+  };
+  
+  const handleAddChannel = () => {
+    createChannel(newChannelName);
+    setIsAddingChannel(false);
+    setNewChannelName('');
+  };
+
   return (
     <div>
       {user && (
         <>
-          <label>ユーザー名: {user.user_name}</label>
+          <h3>ユーザー名: {user.user_name}</h3>
         </>
       )}
 
@@ -207,6 +244,19 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
           </li>
         ))}
       </ul>
+
+      {isAddingChannel ? (
+      <div>
+        <input type="text" value={newChannelName} onChange={handleNewChannelNameChange} />
+        <button onClick={handleAddChannel}>追加</button>
+      </div>
+    ) : (
+      <button onClick={handleCreateChannel}>チャンネル追加</button>
+    )}
+
+    {currentChannel && (
+      <h4>選択されたチャンネル: {currentChannel.channel_name}</h4>
+    )}
 
       <h3>メッセージ</h3>
       <ul>
