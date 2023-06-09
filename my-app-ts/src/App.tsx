@@ -20,19 +20,20 @@ const App: React.FC = () => {
     <UserProvider>
       <Router>
       <Switch>
-        <Route exact path="/login">
-          {isLoggedIn ? <Redirect to="/home" /> : <LoginForm handleLogin={handleLogin} />}
-        </Route>
-        <Route exact path="/signup">
-          {isLoggedIn ? <Redirect to="/home" /> : <SignUpForm handleLogin={handleLogin} />}
-        </Route>
-        <Route exact path="/home">
-          {isLoggedIn ? <HomePage handleLogout={handleLogout} /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/">
-          <Redirect to="/login" />
-        </Route>
-      </Switch>
+    <Route exact path="/login">
+      {isLoggedIn ? <Redirect to="/home" /> : <LoginForm handleLogin={handleLogin} />}
+    </Route>
+    <Route exact path="/signup">
+      {isLoggedIn ? <Redirect to="/home" /> : <SignUpForm handleLogin={handleLogin} />}
+    </Route>
+    <Route exact path="/home">
+      {isLoggedIn ? <HomePage handleLogout={handleLogout} /> : <Redirect to="/login" />}
+    </Route>
+    <Route path="/">
+      <Redirect to="/login" />
+    </Route>
+  </Switch>
+
     </Router>
   </UserProvider>
     
