@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import HomePage from './HomePage';
+import { UserProvider } from './UserContext';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +17,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
+    <UserProvider>
+      <Router>
       <Switch>
         <Route exact path="/login">
           {isLoggedIn ? <Redirect to="/home" /> : <LoginForm handleLogin={handleLogin} />}
@@ -32,6 +34,8 @@ const App: React.FC = () => {
         </Route>
       </Switch>
     </Router>
+  </UserProvider>
+    
   );
 };
 

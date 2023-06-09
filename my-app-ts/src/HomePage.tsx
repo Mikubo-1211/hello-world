@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useState, useEffect,useContext } from 'react';
+import { UserContext } from './UserContext';
 
 type HomePageProps = {
   handleLogout: () => void;
@@ -28,12 +28,11 @@ type User = {
 };
 
 const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
+  const { userEmail } = useContext(UserContext);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [channels, setChannels] = useState<Channel[]>([]);
   const [user, setUser] = useState<User | null>(null);
-  const [cookies] = useCookies(['userEmail']);
-  const userEmail = cookies.userEmail || '';
   const [currentChannel, setCurrentChannel] = useState<Channel | null>(null);
   const [editMessageId, setEditMessageId] = useState('');
   const [editMessage, setEditMessage] = useState('');
