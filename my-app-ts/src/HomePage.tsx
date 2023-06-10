@@ -1,5 +1,6 @@
 import React, { useState, useEffect,useContext } from 'react';
 import { UserContext } from './UserContext';
+import './HomePage.css';
 
 type HomePageProps = {
   handleLogout: () => void;
@@ -106,8 +107,8 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
       alert('ユーザーIDがありません');
       return;
     }
-    if (message.length > 150) {
-      alert('メッセージは150文字以内で入力してください');
+    if (message.length > 100) {
+      alert('メッセージは100文字以内で入力してください');
       return;
     }
     try {
@@ -222,82 +223,91 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
   };
 
   return (
-    <div>
-      {user && (
-        <>
-          <h3>ユーザー名: {user.user_name}</h3>
-        </>
-      )}
+    <div className="outer-container">
+      <div className="container">
+        
 
-      <h3>チャンネルリスト</h3>
-      <ul>
-        {channels.map((channel) => (
-          <li key={channel.channel_id}>
-            <button
-              onClick={() => {
-                fetchMessage(channel.channel_id);
-                setCurrentChannel(channel);
-              }}
-            >
-              {channel.channel_name}
-            </button>
-          </li>
-        ))}
-      </ul>
+        <div className="channel-container">
+        {user && (
+          <>
+            <h3 className="user-name">ユーザー名: {user.user_name}</h3>
+          </>
+        )}
+          <h3>チャンネルリスト</h3>
+          <ul className="channel-list">
+            {channels.map((channel) => (
+              <li key={channel.channel_id} className="channel-list-item">
+                <button
+                  className="channel-button"
+                  onClick={() => {
+                    fetchMessage(channel.channel_id);
+                    setCurrentChannel(channel);
+                  }}
+                >
+                  {channel.channel_name}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-      {isAddingChannel ? (
-      <div>
-        <input type="text" value={newChannelName} onChange={handleNewChannelNameChange} />
-        <button onClick={handleAddChannel}>追加</button>
-      </div>
-    ) : (
-      <button onClick={handleCreateChannel}>チャンネル追加</button>
-    )}
-
-    {currentChannel && (
-      <h4>選択されたチャンネル: {currentChannel.channel_name}</h4>
-    )}
-
-      <h3>メッセージ</h3>
-      <ul>
-      {messages.map((message) => (
-  <li key={message.id}>
-    <div>
-      <span>名前: {message.user_name}</span>
-      <br />
-      {editMessageId === message.id ? (
-        <div>
-          <input type="text" value={editMessage} onChange={handleEditInputChange} />
-          <button onClick={handleUpdateMessage}>更新</button>
-        </div>
-      ) : (
-        <>
-          <span>メッセージ: {message.content}</span>
-          {message.edit === '1' && <span> (編集済)</span>}
-          
-          <br />
-          {message.user_id === user?.user_id && (
-            <div>
-              <button onClick={() => handleDeleteMessage(message.id)}>削除</button>
-              <button onClick={() => handleEditMessage(message.id, message.content)}>編集</button>
+          {isAddingChannel ? (
+            <div className="add-channel-container">
+              <input type="text" value={newChannelName} onChange={handleNewChannelNameChange} className="add-channel-input" />
+              <button onClick={handleAddChannel} className="add-channel-button">追加</button>
             </div>
+          ) : (
+            <button onClick={handleCreateChannel} className="add-channel-button">チャンネル追加</button>
           )}
-        </>
-      )}
-    </div>
-  </li>
-))}
 
-      </ul>
+        </div>
 
-      <div>
-        <input type="text" value={message} onChange={handleInputChange} />
-        <button onClick={handleSendMessage}>送信</button>
+        <div className="message-container">
+        {currentChannel && (
+            <h4 className="selected-channel">選択されたチャンネル: {currentChannel.channel_name}</h4>
+          )}
+          <h3>メッセージ</h3>
+          <div className="message-list-container">
+          <ul className="message-list">
+            {messages.map((message) => (
+              <li key={message.id} className="message-item">
+                <div>
+                  <span className="message-header">{message.user_name}</span>
+                  <br />
+                  {editMessageId === message.id ? (
+                    <div>
+                      <input type="text" value={editMessage} onChange={handleEditInputChange} className="edit-message-input" />
+                      <button onClick={handleUpdateMessage} className="update-message-button">更新</button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="message-content"> {message.content}</span>
+                      {message.edit === '1' && <span> (編集済)</span>}
+
+                      <br />
+                      {message.user_id === user?.user_id && (
+                        <div>
+                          <button onClick={() => handleDeleteMessage(message.id)} className="delete-message-button">削除</button>
+                          <button onClick={() => handleEditMessage(message.id, message.content)} className="edit-message-button">編集</button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+          </div>
+
+          <div className="input-container">
+            <input type="text" value={message} onChange={handleInputChange} className="message-input" />
+            <button onClick={handleSendMessage} className="send-message-button">送信</button>
+          </div>
+        </div>
       </div>
-      <button onClick={handleLogout}>ログアウト</button>
+
+      <button onClick={handleLogout} className="logout-button">ログアウト</button>
     </div>
   );
 };
-
 export default HomePage;
 

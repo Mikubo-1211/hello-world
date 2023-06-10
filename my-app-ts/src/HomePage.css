@@ -1,0 +1,167 @@
+/* 外側の大枠 */
+.outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+   
+  }
+  
+  .container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #f2f2f2;
+    width: 100%;
+  }
+  
+  /* ユーザー名 */
+  .user-name {
+    margin-bottom: 10px;
+  }
+  
+  /* チャンネルリストのコンテナ */
+  .channel-container {
+    flex: 1;
+  }
+  
+  /* チャンネルリストのタイトル */
+  .channel-container h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* チャンネルリストのリスト */
+  .channel-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* チャンネルリストのリストアイテム */
+  .channel-list-item {
+    margin-bottom: 5px;
+  }
+  
+  /* チャンネルリストのボタン */
+  .channel-button {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* 選択されたチャンネル */
+  .selected-channel {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  /* メッセージのコンテナ */
+  .message-container {
+    flex: 3;
+    background-color: #f2f2f2;
+  }
+  
+  /* メッセージのタイトル */
+  .message-container h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* メッセージのリスト */
+  .message-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* メッセージのリストアイテム */
+  .message-item {
+    margin-bottom: 10px;
+  }
+  
+  /* メッセージのヘッダー */
+  .message-header {
+    font-weight: bold;
+  }
+  
+  /* メッセージのコンテンツ */
+  .message-content {
+    margin-top: 5px;
+  }
+  
+  /* 編集済みのメッセージ */
+  .message-content span {
+    color: red(128, 128, 128);
+  }
+  
+  /* メッセージの編集ボタン */
+  .edit-message-button {
+    margin-left: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* メッセージの削除ボタン */
+  .delete-message-button {
+    margin-left: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* メッセージの編集入力 */
+  .edit-message-input {
+    margin-top: 5px;
+  }
+  
+  /* メッセージの更新ボタン */
+  .update-message-button {
+    margin-top: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* 入力欄のコンテナ */
+  .input-container {
+    margin-top: 10px;
+  }
+  
+  /* メッセージの入力欄 */
+  .message-input {
+    width: 500px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* 送信ボタン */
+  .send-message-button {
+    margin-left: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* ログアウトボタン */
+  .logout-button {
+    margin-top: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .message-list-container {
+    height: 500px; /* 例: 最大の高さ */
+    overflow-y: auto; /* スクロールバーを表示する */
+    background-color: white;
+  }
+  
