@@ -46,9 +46,7 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
   }, []);
 
 
-  useEffect(() => {
-    fetchUsers(userEmail || ''); // userEmailがnullの場合に空の文字列を渡す
-  }, [userEmail]);
+  
 
   const fetchMessage = async (channelId: string) => {
     try {
@@ -66,6 +64,7 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
   };
 
   const fetchUsers = async (email: string) => {
+    console.log(email); 
     try {
       const result = await fetch(`https://hello-world-2-xyex4gyyzq-uc.a.run.app/users?user_email=${email}`, {
         method: 'GET',
@@ -79,6 +78,10 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    fetchUsers(userEmail || ''); // userEmailがnullの場合に空の文字列を渡す
+  }, [userEmail]);
 
   const fetchChannel = async () => {
     try {
