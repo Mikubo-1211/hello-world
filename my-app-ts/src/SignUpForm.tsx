@@ -94,8 +94,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
       alert(errorMessage);
     }
   };
-
-  //バグ処理試験的
+  
+  //試験
   const fetchUsers = async (email: string) => {
     try {
       const result = await fetch(`https://hello-world-2-xyex4gyyzq-uc.a.run.app/users?user_email=${email}`, {
@@ -104,6 +104,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
       if (!result.ok) {
         throw Error(`Failed to fetch user: ${result.status}`);
       }
+      const userData = await result.json();
     } catch (error) {
       console.error(error);
     }
