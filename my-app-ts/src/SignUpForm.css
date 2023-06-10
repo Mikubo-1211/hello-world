@@ -1,0 +1,48 @@
+/* SignUpForm.css */
+
+.SignUpForm {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .SignUpForm h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .SignUpForm label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .SignUpForm input[type="username"],
+  .SignUpForm input[type="email"],
+  .SignUpForm input[type="password"] {
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .SignUpForm button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+
+  .SignUpForm button:hover {
+    background-color:#0064b7; /* Change the background color on hover */
+  }
+
+  .inputField {
+    width: 250px;
+    height: 24px; 
+    font-size: 20px;
+  }
+  

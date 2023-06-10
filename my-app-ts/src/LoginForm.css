@@ -1,0 +1,38 @@
+.LoginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .LoginForm label {
+    margin-bottom: 10px;
+  }
+  
+  .LoginForm button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+
+  .LoginForm button:hover {
+    background-color:#0064b7; /* Change the background color on hover */
+  }
+
+  .inputField {
+    width: 250px;
+    height: 32px; 
+    font-size: 20px;
+  }
+
+  .labelText {
+    font-size: 20px; /* フォントサイズを調整してください */
+  }
+
+  .submitButton {
+    font-size: 20px; /* フォントサイズを調整してください */
+  }
+  
