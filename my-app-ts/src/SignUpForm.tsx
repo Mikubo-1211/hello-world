@@ -84,7 +84,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
         if (!result.ok) {
           throw Error(`Failed to create user: ${result.status}`);
         }
-        fetchUsers(email);
       } catch (err) {
         const errorMessage = (err as Error).message; // エラーオブジェクトの型を明示的に指定する
         alert(errorMessage);
@@ -95,20 +94,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
     }
   };
   
-  //試験
-  const fetchUsers = async (email: string) => {
-    try {
-      const result = await fetch(`https://hello-world-2-xyex4gyyzq-uc.a.run.app/users?user_email=${email}`, {
-        method: 'GET',
-      });
-      if (!result.ok) {
-        throw Error(`Failed to fetch user: ${result.status}`);
-      }
-      const userData = await result.json();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
 
 
   return (
