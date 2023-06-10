@@ -11,7 +11,7 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [userEmail, setUserEmail] = useState<string>("");
+    const [userEmail, setUserEmail] = useState<string>("syoki@e.com");
   
     return (
       <UserContext.Provider value={{ userEmail, setUserEmail }}>
