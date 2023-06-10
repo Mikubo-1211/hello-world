@@ -3,6 +3,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { fireAuth } from "./firebase";
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import './SignUpForm.css';
+
 
 interface SignUpFormProps {
   handleLogin: () => void; // handleLogin プロパティの型定義
@@ -13,6 +15,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const { setUserEmail } = useContext(UserContext); // UserContextからsetUserEmailを取得
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -27,6 +30,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   };
 
   const signUpWithEmail = async (): Promise<void> => {
+
+    setIsButtonDisabled(true);
+
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 2000);
     if (!username || username.length === 0) {
       alert("名前を入力してください。");
       return;
@@ -39,6 +48,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
 
     if (email.length > 50) {
       alert("メールアドレスは50文字以下で入力してください。");
+      return;
+    }
+    if (password.length < 6) {
+      alert("パスワードは6文字以上で入力してください。");
+      return;
+    }
+    if (password.length > 50) {
+      alert("パスワードは50文字以下で入力してください。");
       return;
     }
     
@@ -78,24 +95,27 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   };
 
   return (
-    <div>
-      <h2>新規登録</h2>
+    <div className="SignUpForm">
+      <h1>新規登録</h1>
       <label>
-        名前:
-        <input type="username" value={username} onChange={handleUsernameChange} />
+        名前
+        <br />
+        <input type="username" value={username} onChange={handleUsernameChange} className="inputField"/>
       </label>
       <br />
       <label>
-        メールアドレス:
-        <input type="email" value={email} onChange={handleEmailChange} />
+        メールアドレス
+        <br />
+        <input type="email" value={email} onChange={handleEmailChange} className="inputField"/>
       </label>
       <br />
       <label>
-        パスワード:
-        <input type="password" value={password} onChange={handlePasswordChange} />
+        パスワード
+        <br />
+        <input type="password" value={password} onChange={handlePasswordChange} className="inputField"/>
       </label>
       <br />
-      <button onClick={signUpWithEmail}>
+      <button onClick={signUpWithEmail} disabled={isButtonDisabled}>
         新規登録
       </button>
     </div>

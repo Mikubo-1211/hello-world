@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, signOut } from "./firebase";
 import { Link } from 'react-router-dom';
 import { fireAuth } from "./firebase";
 import { UserContext } from './UserContext';
+import './LoginForm.css';
 
 interface LoginFormProps {
   handleLogin: () => void; // handleLogin プロパティの型定義
@@ -12,6 +13,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { setUserEmail } = useContext(UserContext); // UserContextからuserEmailとsetUserEmailを取得
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +25,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin }) => {
   };
 
   const signInWithEmail = (): void => {
+    setIsButtonDisabled(true);
+
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 2000);
     // メール/パスワードでログインする
     signInWithEmailAndPassword(fireAuth, email, password)
       .then(res => {
@@ -45,27 +52,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin }) => {
   };
 
   return (
-    <div>
-      <h2>ログイン</h2>
-      <label>
-        メールアドレス:
-        <input type="email" value={email} onChange={handleEmailChange} />
+    <div className="LoginForm">
+      <h1>ログイン</h1>
+      <label className="labelText">
+        メールアドレス
+        <br/>
+        <input type="email" value={email} onChange={handleEmailChange} className="inputField"/>
       </label>
       <br />
-      <label>
-        パスワード:
-        <input type="password" value={password} onChange={handlePasswordChange} />
+      <label className="labelText">
+        パスワード
+        <br/>
+        <input type="password" value={password} onChange={handlePasswordChange} className="inputField"/>
       </label>
       <br />
-      <button onClick={signInWithEmail}>
+      <button onClick={signInWithEmail} disabled={isButtonDisabled} className="submitButton">
         ログイン
       </button>
       <br />
-      <button onClick={signOutWithGoogle}>
-        ログアウト
-      </button>
-      <br />
-      <p>新規登録はこちら: <Link to="/signup">新規登録</Link></p>
+      <p className="inputField" ><Link to="/signup">新規登録はこちら</Link></p>
     </div>
   );
 };
