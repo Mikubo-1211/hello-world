@@ -14,7 +14,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const { setUserEmail } = useContext(UserContext); // UserContextからsetUserEmailを取得
+  const { userEmail, setUserEmail } = useContext(UserContext); // UserContextからuserEmailとsetUserEmailを取得
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {

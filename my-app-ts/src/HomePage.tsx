@@ -45,8 +45,9 @@ const HomePage: React.FC<HomePageProps> = ({ handleLogout }) => {
     fetchChannel();
   }, []);
 
+
   useEffect(() => {
-    fetchUsers(userEmail);
+    fetchUsers(userEmail || ''); // userEmailがnullの場合に空の文字列を渡す
   }, [userEmail]);
 
   const fetchMessage = async (channelId: string) => {
